@@ -11,17 +11,26 @@
       {% endif %}
     </a>
   </h1>
-  {% if pagename == 'index' and theme_github %}
+  {% if theme_github %}
   <iframe src="http://ghbtns.com/github-btn.html?user={{theme_github}}&repo={{project}}&type=watch&count=true&size=large"
   allowtransparency="true" frameborder="0" scrolling="0" width="160" height="35" style="float: right; border: none"></iframe>
   {% endif %}
-  <div class="body">
+  {% if theme_navs %}
+  <div class="nav">
+    {% set counter = 0 %}
+    {% for doc, name in theme_navs %}
+    {% set counter = counter + 1 %}
+    <a href="{%if hasdoc(doc)%}{{pathto(doc)}}{%else%}{{doc}}{%endif%}">{{name}}</a>
+    {% if counter < theme_navs | length %}~{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  <div class="body clear">
   {% block body %}
   {% endblock %}
   </div>
 </div>
 {% endblock %}
-
 {% block footer %}
   <div class="footer">
     &copy; Copyright {{ copyright }}.
